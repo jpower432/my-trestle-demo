@@ -61,7 +61,7 @@ The organization:
 
 - \[b.\] Reviews and updates the current:
 
-  - \[1.\] Security awareness and training policy [organization-defined frequency]; and
+  - \[1.\] Security awareness and training policy [test]; and
   - \[2.\] Security awareness and training procedures [organization-defined frequency].
 
 ## Control Objective
