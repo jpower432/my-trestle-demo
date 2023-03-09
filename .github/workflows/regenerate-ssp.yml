@@ -29,6 +29,8 @@ jobs:
         run: make generate-fedramp-ssp
       - name: Regenerate custom SSP
         run: make generate-custom-ssp
+      - name: Assemble ssps
+        run: make assemble-ssps
       - name: Update and PR
         run: bash ./automation/lib/update.sh "Sync OSCAL SSPs"  `
         env:
