@@ -15,7 +15,7 @@ x-trestle-set-params:
   # in SetParameters of the Profile.
   #
   ac-2.3_prm_1:
-    profile-values:
+    profile-values: test
     values:
 sort-id: ac-02.03
 x-trestle-add-props:

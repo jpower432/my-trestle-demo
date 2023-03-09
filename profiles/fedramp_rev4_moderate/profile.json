@@ -4,7 +4,7 @@
     "metadata": {
       "title": "FedRAMP Rev 4 Moderate Baseline",
       "published": "2021-02-05T00:00:00-04:00",
-      "last-modified": "2023-03-09T22:49:34.598743+00:00",
+      "last-modified": "2023-03-09T23:03:06.887834+00:00",
       "version": "fedramp1.1.0-oscal1.0.0",
       "oscal-version": "1.0.2",
       "roles": [
@@ -454,7 +454,10 @@
           "param-id": "ac-2.2_prm_2"
         },
         {
-          "param-id": "ac-2.3_prm_1"
+          "param-id": "ac-2.3_prm_1",
+          "values": [
+            "test"
+          ]
         },
         {
           "param-id": "ac-6.2_prm_1"
