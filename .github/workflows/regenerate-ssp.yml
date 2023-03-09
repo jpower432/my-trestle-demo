@@ -28,6 +28,6 @@ jobs:
       - name: Regenerate custom SSP
         run: make generate-custom-ssp
       - name: Update and PR
-        run: bash ./automation/lib/update.sh "Sync OSCAL SSPs
+        run: bash ./automation/lib/update.sh "Sync OSCAL SSPs"  `
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
