@@ -3,7 +3,7 @@
     "uuid": "96a701b8-f7be-44c1-ad21-3ae4d1ae45f9",
     "metadata": {
       "title": "REPLACE_ME",
-      "last-modified": "2023-03-06T23:10:54.047840+00:00",
+      "last-modified": "2023-03-09T21:42:17.754062+00:00",
       "version": "REPLACE_ME",
       "oscal-version": "1.0.2"
     },
@@ -31,6 +31,17 @@
                 "id": "cc-2_smt",
                 "name": "statement",
                 "prose": "All services must calculate and report total scope 3 energy consumption."
+              }
+            ]
+          },
+          {
+            "id": "cc-3",
+            "title": "test",
+            "parts": [
+              {
+                "id": "cc-3_smt",
+                "name": "statement",
+                "prose": "All services must run my test."
               }
             ]
           }
