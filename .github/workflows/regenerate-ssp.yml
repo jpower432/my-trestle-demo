@@ -6,6 +6,8 @@ on:
     paths:
       - 'profiles/**'
       - 'markdown/profiles/**'
+      - 'component-defintions/**'
+      - 'markdown/components/**'
 
 permissions:
   contents: write
