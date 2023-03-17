@@ -17,7 +17,7 @@ x-trestle-set-params:
   at-1_prm_1:
     values:
   at-1_prm_2:
-    profile-values: test
+    profile-values:
     values:
   at-1_prm_3:
     profile-values:

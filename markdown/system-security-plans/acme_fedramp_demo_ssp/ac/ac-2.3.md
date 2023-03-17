@@ -52,7 +52,7 @@ x-trestle-comp-def-rules:
 
 ## Control Statement
 
-The information system automatically disables inactive accounts after [test].
+The information system automatically disables inactive accounts after [organization-defined time period].
 
 ## Control Objective
 
