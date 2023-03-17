@@ -4,7 +4,7 @@ x-trestle-global:
     title: ACME Inc. internal controls profile.
 ---
 
-# cc-3 - \[Custom Controls\] test
+# cc-3 - \[Custom Controls\] Test reporting
 
 ## Control Statement
 
