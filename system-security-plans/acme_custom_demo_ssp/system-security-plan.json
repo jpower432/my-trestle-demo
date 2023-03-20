@@ -3,7 +3,7 @@
     "uuid": "4857e0ae-937f-43db-973b-03c54e625a88",
     "metadata": {
       "title": "REPLACE_ME",
-      "last-modified": "2023-03-20T22:57:09.268282+00:00",
+      "last-modified": "2023-03-20T23:11:21.868070+00:00",
       "version": "REPLACE_ME",
       "oscal-version": "1.0.2"
     },
@@ -220,6 +220,14 @@
               "implementation-status": {
                 "state": "planned"
               }
+            },
+            {
+              "component-uuid": "cbd79a85-0aff-4657-bf29-2a795de1d492",
+              "uuid": "49f7adac-9292-4ab3-8d44-ce73c6c87945",
+              "description": "",
+              "implementation-status": {
+                "state": "planned"
+              }
             }
           ]
         },
@@ -230,6 +238,14 @@
             {
               "component-uuid": "6e7728a9-328a-4c49-96cf-58332c475b35",
               "uuid": "cd1f7400-d6ac-455f-bbfb-ee91969e0b9b",
+              "description": "",
+              "implementation-status": {
+                "state": "planned"
+              }
+            },
+            {
+              "component-uuid": "cbd79a85-0aff-4657-bf29-2a795de1d492",
+              "uuid": "8c2cf051-d0dc-4eb0-810b-891621f5aecb",
               "description": "",
               "implementation-status": {
                 "state": "planned"
