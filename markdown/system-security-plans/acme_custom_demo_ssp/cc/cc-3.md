@@ -5,7 +5,7 @@ x-trestle-global:
     href: trestle://profiles/ACME_internal_profile/profile.json
 ---
 
-# cc-3 - \[Custom Controls\] test
+# cc-3 - \[Custom Controls\] Test reporting
 
 ## Control Statement
 
