@@ -18,6 +18,10 @@ Any service or offering MUST:
 
 - \[d\] The process must be documented.
 
+## Control additional_process_guidance
+
+The process automation must be documented in Markdown.
+
 # Editable Content
 
 <!-- Make additions and edits below -->
