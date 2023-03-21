@@ -1,6 +1,6 @@
 ---
 x-trestle-comp-def-rules:
-  Hello World:
+  This System:
     - name: Test-rule_002
       description: Ensure all of the services are running this test again
 x-trestle-global:
@@ -23,7 +23,7 @@ ______________________________________________________________________
 
 <!-- Note that the list of rules under ### Rules: is read-only and changes will not be captured after assembly to JSON -->
 
-<!-- Add control implementation description here for control: cc-1 -->
+<!-- Add control implementation description here for item  -->
 
 ### Rules:
 
