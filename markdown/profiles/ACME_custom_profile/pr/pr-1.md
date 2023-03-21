@@ -34,3 +34,7 @@ Any service or offering MUST:
 <!-- Subparts may be added with nested hash levels of the form ### My Subpart Name -->
 <!-- underneath the parent ## Control or ## Part being added -->
 <!-- See https://ibm.github.io/compliance-trestle/tutorials/ssp_profile_catalog_authoring/ssp_profile_catalog_authoring for guidance. -->
+
+## Control additional_process_guidance
+
+The process automation must be documented in Markdown.
