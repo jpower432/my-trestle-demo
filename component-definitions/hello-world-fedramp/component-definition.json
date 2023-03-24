@@ -1,15 +1,15 @@
 {
   "component-definition": {
-    "uuid": "30b6f296-0594-4e33-98e1-c92c4958f541",
+    "uuid": "750ff13a-1262-4fef-8ed0-d3d1b64adfc0",
     "metadata": {
       "title": "Hello World FedRAMP Component Definition",
-      "last-modified": "2023-03-20T22:39:30.716548+00:00",
+      "last-modified": "2023-03-24T15:36:36.739318+00:00",
       "version": "1.0.0",
       "oscal-version": "1.0.2"
     },
     "components": [
       {
-        "uuid": "e1fc61b0-d48b-4f9d-986e-08f90bf33a59",
+        "uuid": "fe441fe7-63e2-4c64-9e31-37c51cfe4c1a",
         "type": "service",
         "title": "This System",
         "description": "Hello World Application",
@@ -29,12 +29,12 @@
         ],
         "control-implementations": [
           {
-            "uuid": "a3b95d4b-4723-4639-837b-5848025a45ae",
+            "uuid": "cf91a948-6a7b-4f42-9c92-2d493da8c079",
             "source": "profiles/fedramp_rev4_moderate/profile.json",
             "description": "This is a partial implementation of the FedRAMP Moderate profile, focusing on the control enhancement AC-2 (3).",
             "implemented-requirements": [
               {
-                "uuid": "6f307672-3b3a-4b43-8d12-b3bbbbd3dae0",
+                "uuid": "fb270cf7-630c-45ba-aa36-4f0527adca03",
                 "control-id": "ac-2.3",
                 "description": "",
                 "props": [
