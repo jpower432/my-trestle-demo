@@ -1,15 +1,15 @@
 {
   "component-definition": {
-    "uuid": "65306674-0c60-4fb7-98a8-840846b13196",
+    "uuid": "f46698dc-2d21-4039-b844-9fd37ae0ee1a",
     "metadata": {
       "title": "Hello World Custom Component Definition",
-      "last-modified": "2023-03-24T15:36:36.083649+00:00",
+      "last-modified": "2023-03-24T15:52:56.894729+00:00",
       "version": "1.0.0",
       "oscal-version": "1.0.2"
     },
     "components": [
       {
-        "uuid": "5c2eb42c-1260-43b0-bc87-f917be32ddd9",
+        "uuid": "d0d9db9d-e3e1-4681-ade3-486d18b65c4d",
         "type": "service",
         "title": "This System",
         "description": "Hello World Application",
@@ -25,16 +25,28 @@
             "ns": "http://ibm.github.io/compliance-trestle/schemas/oscal/cd",
             "value": "Ensure all of the services are running this test",
             "remarks": "rule_set_0"
+          },
+          {
+            "name": "Rule_Id",
+            "ns": "http://ibm.github.io/compliance-trestle/schemas/oscal/cd",
+            "value": "Test-rule_002",
+            "remarks": "rule_set_1"
+          },
+          {
+            "name": "Rule_Description",
+            "ns": "http://ibm.github.io/compliance-trestle/schemas/oscal/cd",
+            "value": "Ensure all of the services are running this test again",
+            "remarks": "rule_set_1"
           }
         ],
         "control-implementations": [
           {
-            "uuid": "7602e42b-b68f-49a7-81bb-d177c711148c",
+            "uuid": "9ee2c581-cf77-48f1-90ff-dfc0530727c3",
             "source": "profiles/ACME_internal_profile/profile.json",
             "description": "This is a partial implementation of the ACME Internal profile",
             "implemented-requirements": [
               {
-                "uuid": "b31d7fa9-4769-474b-abc0-1486e0bb9ea9",
+                "uuid": "52d04321-0fd0-454a-9640-647d7a2ade62",
                 "control-id": "pr-1",
                 "description": "",
                 "props": [
@@ -42,6 +54,22 @@
                     "name": "Rule_Id",
                     "ns": "http://ibm.github.io/compliance-trestle/schemas/oscal/cd",
                     "value": "Test-rule_001"
+                  },
+                  {
+                    "name": "implementation-status",
+                    "value": "partial"
+                  }
+                ]
+              },
+              {
+                "uuid": "1a163084-df9e-44ba-a402-2bd8586ddf99",
+                "control-id": "cc-1",
+                "description": "",
+                "props": [
+                  {
+                    "name": "Rule_Id",
+                    "ns": "http://ibm.github.io/compliance-trestle/schemas/oscal/cd",
+                    "value": "Test-rule_002"
                   },
                   {
                     "name": "implementation-status",
