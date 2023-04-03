@@ -5,6 +5,8 @@ Getting Started Guide
 - [What You Will Learn](#what-you-will-learn)
 - [Tools Required](#tools-required)
 - [Setting up Your Repository](#setting-up-your-repository)
+    * [Repository Management](#repository-management)
+- [Setting Up GitHub CLI (gh)](#setting-up-github-cli-gh)
 - [Editing Content](#editing-content)
 - [Personas and Applicable Workflows](#personas-and-applicable-workflows)
     * [Control Issuers](#control-issuers)
@@ -50,14 +52,55 @@ This guide provides an overview of this demo project including everything that y
 
 # Setting up Your Repository
 
-This repository is meant to be used as a template to ensure your repository environment has all required content and a separate commit history. 
+This repository can be used template to ensure your repository environment has all required content and a separate commit history. 
 Use this [guide](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) to create a repository.
 If you don't have a GitHub Team, GitHub Enterprise Cloud or GitHub Enterprise Server plan, make sure the repository visibility is public so draft pull requests can be submitted.
+
+If desired, a repository fork can be used. Remember that this will be linked to the original repository. 
+Using a fork is a good option if you do not intend to customize the content and want to receive continuous updates from original repository. 
+However, keep in mind that running the guided workflow will result in commits to the `main` branch that will not be contributed back to the original repository, which can cause merge conflicts.
 
 Here are some additional resources for repository configuration:
 
 - [Branch Protection](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/managing-a-branch-protection-rule)
 - [GitHub Actions Configuration](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository)
+
+## Repository Management
+
+Unlike forks, repositories created from template repository are not linked so updates cannot be synced with the GitHub UI. 
+
+If you need to start with a fresh environment, you can create a new repository from the template to get the latest updates.
+
+If you would like to update your existing repository use the following steps:
+```bash
+git remote add template https://github.com/RedHatProductSecurity/trestle-demo.git
+git fetch --all
+git merge template/main --allow-unrelated-histories
+git push
+```
+
+> **Warning**
+> Because the guided activities require pushing changes to the `main` branch, updating the existing repository may causes merge conflicts.
+
+# Setting Up GitHub CLI (gh)
+
+This demo makes use of the GitHub CLI to streamline managing GitHub Pull Requests. To make use of these automations, the GitHub CLI will need to be installed in your environment prior to performing the walkthroughs in this guide. If you do not opt to install and leverage the GitHub CLI, you will need to perform the Pull Request management tasks manually through the GitHub WebUI. This guide does not detail the management of GitHub Pull Requests through the GitHub WebUI.
+
+### GitHub CLI Installation
+
+Follow [this guide](https://cli.github.com/manual/installation) to install and configure the GitHub CLI: 
+
+### GitHub CLI Login to GitHub
+
+Follow [these instructions](https://cli.github.com/manual/gh_auth_login) to use the GitHub CLI to login to GitHub: 
+
+### GitHub CLI git Credential Helper
+
+The GitHub CLI can also be used as a credential helper for git (configures git client authentication to GitHub). To learn more about this and how to leverage this capability, reference this [documentation](https://cli.github.com/manual/gh_auth_setup-git)
+
+### GitHub CLI PR Management Info
+
+More information about managing Pull Requests with the GitHub CLI can be found [here](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/managing-pull-request-reviews-in-your-repository)
 
 # Editing Content
 
@@ -70,7 +113,7 @@ The first step in finishing edits on OSCAL content is to run commands to generat
 The following commands can be run to generate this:
 
 - `make regenerate-catalogs`
-- `make regenerat-profiles`
+- `make regenerate-profiles`
 - `make regenerate-cd`
 - To regenerate all: `make regenerate`
 
@@ -151,12 +194,10 @@ Clone your repository created from the template to your local environment to get
 git clone https://github.com/mynamespace/my-trestle-repo
 ```
 
-If necessary, create the container image and run the container. Because the local repository is mounted as a volume under `trestle-workspace`, making changes requires you to navigate to that directory.
+If necessary, create the container image.
 
 ```bash
 make demo-build # build the container image if not done already
-make sandbox-run
-cd trestle-workspace
 ````
 
 To make changes to the ACME custom controls catalog, checkout a new branch.
@@ -189,8 +230,6 @@ When you run `git status` ,you should see two file changes. One in the `markdown
 
 Using the GitHub CLI, you can now commit the changes to the branch and create a pull request. You can also use the [GitHub UI](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) to create a pull request.
 
-**Note: Follow the [demo git and GitHub CLI authentication guide](./auth.md) before performing the following steps!**
-
 ```bash
 git add markdown/ catalogs/
 git commit -m "feat: adds-cc-3"
@@ -208,19 +247,31 @@ gh pr merge
 When this pull request is merged, a workflow is started to detect changes to the profiles, and a new pull request is submitted. Wait for the pull request to be submitted before inspecting the changes. Mark the pull request as ready for review to allow the CI workflow to run.
 
 ```bash
-watch gh pr list
-gh pr diff 2 --web # Use web to open a web browser.
-gh pr ready 2
+# watch for actions that are not complete (wait for nothing returned)
+gh run list --json status --json name --json number --jq '.[] | select(.status != "completed")'
+
+# Get PR ID
+PR_ID=$(gh pr list | grep "chore: automatic content update" | cut -f 1)
+
+# Review PR in CLI
+gh pr diff $PR_ID
+
+# Mark PR ready
+gh pr ready $PR_ID
 ```
 
 View the pull request with the GitHub CLI and merge it when finished.
 
 ```bash
-gh pr view 2
-gh pr merge 2
-```
+# watch for actions that are not complete (wait for nothing returned)
+gh run list --json status --json name --json number --jq '.[] | select(.status != "completed")'
 
-See the recorded steps for this demo [here](./recordings)
+# wait for checks to pass
+gh pr view $PR_ID
+
+# when checks have passed, merge
+gh pr merge $PR_ID
+```
 
 ## Control Owners
 
@@ -259,12 +310,10 @@ Clone your repository created from the template to your local environment to get
 git clone https://github.com/mynamespace/my-trestle-repo
 ```
 
-If necessary, create the container image and run the container. Because the local repository is mounted as a volume under `trestle-workspace`, making changes requires you to navigate to that directory.
+If necessary, create the container image.
 
 ```bash
 make demo-build # build the container image if not done already
-make sandbox-run
-cd trestle-workspace
 ````
 
 To make changes to the ACME custom profile, checkout a new branch.
@@ -302,8 +351,6 @@ When you run `git status` , you should see three file changes. Two in the `markd
 
 Using the GitHub CLI, you can now commit the changes to the branch and create a pull request. You can also use the [GitHub UI](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) to create a pull request.
 
-**Note: Follow the [demo git and GitHub CLI authentication guide](./auth.md) before performing the following steps!**
-
 ```bash
 git add markdown/ profiles/
 git commit -m "feat: adds-custom-guidance"
@@ -318,22 +365,43 @@ gh pr view
 gh pr merge
 ```
 
-When this pull request is merged, a workflow is started to detect changes to the system security plan and component definitions, and a new pull request is submitted. Wait for the pull request to be submitted before inspecting the changes. Mark the pull request as ready for review to allow the CI workflow to run.
+When this pull request is merged, a workflow is started to detect changes to the system security plan and component definitions, and new pull requests are submitted. Wait for the pull requests to be submitted before inspecting the changes. Mark the pull requests as ready for review to allow the CI workflow to run.
 
 ```bash
-watch gh pr list
-gh pr diff 2 --web # Use web to open a web browser.
-gh pr ready 2
+# watch for actions that are not complete (wait for nothing returned)
+gh run list --json status --json name --json number --jq '.[] | select(.status != "completed")'
+
+# Review PRs in CLI
+for PR_ID in $(gh pr list | grep "chore: automatic content update" | cut -f 1);
+do
+  gh pr diff $PR_ID
+done
+
+# Mark PRs ready
+for PR_ID in $(gh pr list | grep "chore: automatic content update" | cut -f 1);
+do
+  gh pr ready $PR_ID
+done
 ```
 
-View the pull request with the GitHub CLI and merge it when finished.
+View the pull requests with the GitHub CLI and merge them when finished.
 
 ```bash
-gh pr view 2
-gh pr merge 2
-```
+# watch for actions that are not complete (wait for nothing returned)
+gh run list --json status --json name --json number --jq '.[] | select(.status != "completed")'
 
-See the recorded steps for this demo [here](./recordings)
+# Check status of PRs (look for "Checks passing")
+for PR_ID in $(gh pr list | grep "chore: automatic content update" | cut -f 1);
+do
+  gh pr view $PR_ID
+done
+
+# Merge the PRs when ready.
+for PR_ID in $(gh pr list | grep "chore: automatic content update" | cut -f 1);
+do
+  gh pr merge $PR_ID
+done
+```
 
 ## Control Providers
 
@@ -370,12 +438,10 @@ Clone your repository created from the template to your local environment to get
 git clone https://github.com/mynamespace/my-trestle-repo
 ```
 
-If necessary, create the container image and run the container. Because the local repository is mounted as a volume under `trestle-workspace`, making changes requires you to navigate to that directory.
+If necessary, create the container image.
 
 ```bash
 make demo-build # build the container image if not done already
-make sandbox-run
-cd trestle-workspace
 ````
 
 To make changes to the Hello World component definition, checkout a new branch.
@@ -387,8 +453,11 @@ git checkout -b "feat/adds-rule-to-cc-1"
 Now that the workspace and all dependencies are available, we can make changes to the Hello World custom component definition.
 
 To create a new rule, update the `hello-world.csv` file under the `rules` directory. 
-Open the CSV and copy the first row. Change the rule_id in Column D, the rule description in Column E, and change the control_id in column L to cc-1.
+Open the CSV and copy the first data row (row 3). Change:
 
+- Column D (Rule Id) to "Test-rule_002"
+- Column E (Rule Description) to some other text
+- Column L (Control Id) to "cc-1"
 
 Run the `update-cd` and `regenerate-cd` commands to ensure that the rule changes are reflected in the component Markdown.
 
@@ -397,7 +466,7 @@ make update-cd
 make regenerate-cd
 ```
 
-When you run `git status`, you should see a file addition under the `markdown/components/hello-world-custom/Hello World` directory.
+When you run `git status`, you should see a file addition under the `markdown/components/hello-world-custom/This Sytem` directory.
 Navigate to the new Markdown file in the directory and add a control implementation details.
 
 Run the `assemble-cd` command to ensure that the Markdown changes are reflected in the OSCAL component definitions. 
@@ -409,8 +478,6 @@ make assemble-cd
 When you run `git status` for a second time, you should see two file changes. One in the `markdown/components` directory, the other in the `component-definitions` directory.
 
 Using the GitHub CLI, you can now commit the changes to the branch and create a pull request. You can also use the [GitHub UI](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) to create a pull request.
-
-**Note: Follow the [demo git and GitHub CLI authentication guide](./auth.md) before performing the following steps!**
 
 ```bash
 git add markdown/ component-definitions/ rules/
@@ -429,19 +496,31 @@ gh pr merge
 When this pull request is merged, a workflow is started to detect changes to the system security plan, and a new pull request is submitted. Wait for the pull request to be submitted before inspecting the changes. Mark the pull request as ready for review to allow the CI workflow to run.
 
 ```bash
-watch gh pr list
-gh pr diff 2 --web # Use web to open a web browser.
-gh pr ready 2
+# watch for actions that are not complete (wait for nothing returned)
+gh run list --json status --json name --json number --jq '.[] | select(.status != "completed")'
+
+# Get PR ID
+PR_ID=$(gh pr list | grep "chore: automatic content update" | cut -f 1)
+
+# Review PR in CLI
+gh pr diff $PR_ID
+
+# Mark PR ready
+gh pr ready $PR_ID
 ```
 
 View the pull request with the GitHub CLI and merge it when finished.
 
 ```bash
-gh pr view 2
-gh pr merge 2
-```
+# watch for actions that are not complete (wait for nothing returned)
+gh run list --json status --json name --json number --jq '.[] | select(.status != "completed")'
 
-See the recorded steps for this demo [here](./recordings)
+# Check status of PR (look for "Checks passing")
+gh pr view $PR_ID
+
+# Merge the PR when ready.
+gh pr merge $PR_ID
+```
 
 ## Control Assessors
 
@@ -495,21 +574,33 @@ Clone your repository created from the template to your local environment to get
 git clone https://github.com/mynamespace/my-trestle-repo
 ```
 
-If necessary, create the container image and run the container. Because the local repository is mounted as a volume under `trestle-workspace,` making changes requires you to navigate to that directory.
+If necessary, create the container image.
 
 ```bash
 make demo-build # build the container image if not done already
-make sandbox-run
-cd trestle-workspace
 ````
 
-Run `make generate-ssp-word` to run the entire workflow. This will generate a Markdown system security plan and convert it to the docx format.
-To just generate the Markdown run `make generate-ssp-markdown`
+Run the `generate-ssp-word` command to run the entire workflow. This will generate a Markdown system security plan and convert it to the docx format.
+
+> Alternative: To just generate the Markdown run the `generate-ssp-markdown` command.
+
+```bash
+make generate-ssp-word
+```
 
 If starting from scratch or testing changes to the system security plan:
 
-Run `make bootstrap-workspace` to import the NIST 800-53 catalog and FedRAMP Moderate profile.
-Run `make generate-fedramp-ssp` to generate the system security plan Markdown file under `markdown/system-security-plans`
+Run the `bootstrap-workspace` command to import the NIST 800-53 catalog and FedRAMP Moderate profile.
+
+```bash
+make bootstrap-workspace
+```
+
+Run the `generate-fedramp-ssp` command to generate the system security plan Markdown file under `markdown/system-security-plans`
+
+```bash
+make generate-fedramp-ssp
+```
 
 > If changes are made to the system security plan in Markdown, run `make assemble-ssps`
 
