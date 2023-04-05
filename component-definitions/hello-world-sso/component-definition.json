@@ -1,47 +1,47 @@
 {
   "component-definition": {
-    "uuid": "1a4a611c-ebe7-4a84-ae8e-7662e1baa6a5",
+    "uuid": "01586631-c1ef-4531-802a-ab389ceff9e3",
     "metadata": {
-      "title": "Hello World FedRAMP Component Definition",
-      "last-modified": "2023-04-04T20:58:15.062588+00:00",
+      "title": "Hello World SSO Component Definition",
+      "last-modified": "2023-04-04T20:58:16.863740+00:00",
       "version": "1.0.0",
       "oscal-version": "1.0.2"
     },
     "components": [
       {
-        "uuid": "50ea602f-69e2-436d-87b8-69bec47c8478",
+        "uuid": "e0313a57-3cd4-4f97-a8d5-13d7d655b3b3",
         "type": "service",
-        "title": "Hello World",
-        "description": "Hello World Application",
+        "title": "Hello World SSO",
+        "description": "SSO Application",
         "props": [
           {
             "name": "Rule_Id",
             "ns": "http://ibm.github.io/compliance-trestle/schemas/oscal/cd",
-            "value": "Test-rule_002",
+            "value": "sso_rule_001",
             "remarks": "rule_set_0"
           },
           {
             "name": "Rule_Description",
             "ns": "http://ibm.github.io/compliance-trestle/schemas/oscal/cd",
-            "value": "Ensure hello-world disables inactive accounts",
+            "value": "Ensure all of the services use automated account management",
             "remarks": "rule_set_0"
           }
         ],
         "control-implementations": [
           {
-            "uuid": "4c9ec2de-31a1-4d2c-829e-90e240a8264d",
-            "source": "profiles/fedramp_rev4_moderate/profile.json",
-            "description": "This is a partial implementation of the FedRAMP Moderate profile, focusing on the control enhancement AC-2 (3).",
+            "uuid": "221ed08c-28d7-49f9-bdfe-a164dd876aee",
+            "source": "profiles/ACME_internal_profile/profile.json",
+            "description": "This is a partial implementation of the ACME Internal profile",
             "implemented-requirements": [
               {
-                "uuid": "b34780d8-198a-4a24-b663-2531a289704a",
-                "control-id": "ac-2.3",
+                "uuid": "4dd49ae5-e891-4c4d-9243-b86c73599478",
+                "control-id": "ac-2.1",
                 "description": "",
                 "props": [
                   {
                     "name": "Rule_Id",
                     "ns": "http://ibm.github.io/compliance-trestle/schemas/oscal/cd",
-                    "value": "Test-rule_002"
+                    "value": "sso_rule_001"
                   },
                   {
                     "name": "implementation-status",

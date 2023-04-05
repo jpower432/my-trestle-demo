@@ -1,6 +1,6 @@
 ---
 x-trestle-comp-def-rules:
-  This System:
+  Hello World PVP:
     - name: Test-rule_001
       description: Ensure all of the services are running this test
 x-trestle-global:
@@ -23,10 +23,6 @@ Any service or offering MUST:
 
 - \[d\] The process must be documented.
 
-## Control additional_process_guidance
-
-The process automation must be documented in Markdown.
-
 ______________________________________________________________________
 
 ## What is the solution and how is it implemented?
@@ -35,12 +31,12 @@ ______________________________________________________________________
 
 <!-- Note that the list of rules under ### Rules: is read-only and changes will not be captured after assembly to JSON -->
 
-<!-- Add control implementation description here for item  -->
+<!-- Add control implementation description here for control: pr-1 -->
 
 ### Rules:
 
   - Test-rule_001
 
-### Implementation Status: partial
+### Implementation Status: planned
 
 ______________________________________________________________________

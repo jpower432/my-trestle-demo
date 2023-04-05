@@ -26,11 +26,19 @@ Getting Started Guide
             * [Steps](#steps-2)
     * [Control Assessors](#control-assessors)
         * [Applicable Workflows](#applicable-workflows-3)
-    * [Control Operators (System Owners)](#control-operators-system-owners)
-        * [Applicable Workflows](#applicable-workflows-4)
-            * [What's included?](#whats-included-3)
+            * [What's included](#whats-included-3)
             * [Diagram](#diagram-3)
             * [Steps](#steps-3)
+    * [Control Operators (System Owners)](#control-operators-system-owners)
+        * [Applicable Workflows](#applicable-workflows-4)
+            * [FedRAMP Report Generation](#fedramp-report-generation)
+                * [What's included?](#whats-included-4)
+                * [Diagram](#diagram-4)
+                * [Steps](#steps-4)
+            * [SSP Filtering By Component](#ssp-filtering-by-component)
+                * [What's included?](#whats-included-5)
+                * [Diagram](#diagram-5)
+                * [Steps](#steps-5)
     * [Additional Resources](#additional-resources)
 
 <!-- tocstop -->
@@ -64,6 +72,8 @@ Here are some additional resources for repository configuration:
 
 - [Branch Protection](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/managing-a-branch-protection-rule)
 - [GitHub Actions Configuration](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository)
+- [Disable unverified third-party Actions](https://docs.github.com/en/enterprise-server@3.6/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#allowing-select-actions-to-run)
+- [Require approval before running workflow from outside contributors](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#controlling-changes-from-forks-to-workflows-in-public-repositories)
 
 ## Repository Management
 
@@ -466,7 +476,7 @@ make update-cd
 make regenerate-cd
 ```
 
-When you run `git status`, you should see a file addition under the `markdown/components/hello-world-custom/This Sytem` directory.
+When you run `git status`, you should see a file addition under the `markdown/components/hello-world-custom/Hello World` directory.
 Navigate to the new Markdown file in the directory and add a control implementation details.
 
 Run the `assemble-cd` command to ensure that the Markdown changes are reflected in the OSCAL component definitions. 
@@ -532,7 +542,86 @@ Component properties, on the other hand, can be used to include rule-id and chec
 
 ### Applicable Workflows
 
-Workflows are currently not available for this persona.
+In this workflow, we will add a check to the CSV file to update the control implementation for the `hello-world` component.
+
+#### What's included
+
+- The hello-world-pvp.csv under the `rules` directory with example rules for the ACME internal profile
+- An existing Hello World component definition with one rule identified. Control implementation information can be edited under `markdown/components/hello-world-pvp`
+
+#### Diagram
+
+The below diagram only covers the guided activity.
+For the full compliance to policy mappings workflow, see this [diagram](./compliance-to-policy.md).
+
+```mermaid
+graph LR;
+  A[Start] --> B[Update rules on component definition]
+  B --> C[Submit PR]
+  C --> D[End]
+```
+
+#### Steps
+
+Clone your repository created from the template to your local environment to get started.
+
+```bash
+git clone https://github.com/mynamespace/my-trestle-repo
+```
+
+If necessary, create the container image.
+
+```bash
+make demo-build # build the container image if not done already
+````
+
+To make changes to the Hello World component definition, checkout a new branch.
+
+```bash
+git checkout -b "feat/adds-check-to-pr-1"
+```
+
+Now that the workspace and all dependencies are available, we can make changes to the Hello World custom component definition.
+
+To create add a check, update the `hello-world-pvp.csv` file under the `rules` directory.
+Open the CSV and edit the first data row (row 3). Change:
+
+- Column M (Check Id) to "Test_check_001"
+- Column N (Check Description) to "This checks that the service is configured to run test"
+
+Run the `update-cd` and `regenerate-cd` commands to ensure that the rule changes are reflected in the component Markdown.
+
+```bash
+make update-cd
+make regenerate-cd
+```
+
+When you run `git status`, you should see a file addition under the `markdown/components/hello-world-pvp/Hello World PVP` directory.
+Navigate to the new Markdown file in the directory and add a control implementation details.
+
+Run the `assemble-cd` command to ensure that the Markdown changes are reflected in the OSCAL component definitions.
+
+```bash
+make assemble-cd
+```
+
+When you run `git status` for a second time, you should see two file changes. One in the `markdown/components` directory, the other in the `component-definitions` directory.
+
+Using the GitHub CLI, you can now commit the changes to the branch and create a pull request. You can also use the [GitHub UI](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) to create a pull request.
+
+```bash
+git add markdown/ component-definitions/ rules/
+git commit -m "feat: adds check to pr-1"
+git push -u origin "feat/adds-check-to-pr-1"
+gh pr create -t "feat/adds-check-to-pr-1" -b "Adds a check for control PR-1" -B "main" -H "feat/adds-check-to-pr-1"
+```
+
+View the pull request with the GitHub CLI and merge it when finished.
+
+```bash
+gh pr view
+gh pr merge
+```
 
 ## Control Operators (System Owners)
 
@@ -544,15 +633,17 @@ SSP is generated from a given profile and component definitions.
 ### Applicable Workflows
 
 Reporting workflows can be demonstrated by using pre-defined `make` targets. 
+
+#### FedRAMP Report Generation
 In this workflow, we generate an OSCAL system security plan based on the FedRAMP Moderate profile and use it to populate a single Markdown file and FedRAMP docx template.
 
-#### What's included?
+##### What's included?
 
 - The NIST rev4 800_53 catalog
 - The FedRAMP Moderate profile
 - The profile has been updated so the import href points within the trestle project to trestle://catalogs/nist_rev4_800_53/catalog.json
 
-#### Diagram
+##### Diagram
 
 ```mermaid
 graph TD;
@@ -566,7 +657,7 @@ graph TD;
 
 > Note: The workspace is pre-populated with the catalog and profile so the first two steps in the diagram are skipped.
 
-#### Steps
+##### Steps
 
 Clone your repository created from the template to your local environment to get started.
 
@@ -603,6 +694,50 @@ make generate-fedramp-ssp
 ```
 
 > If changes are made to the system security plan in Markdown, run `make assemble-ssps`
+
+#### SSP Filtering By Component
+
+We filter an SSP by component in this workflow to demonstrate how to create a starting point for a new SSP. 
+This may also be useful if a component needs to be updated to an accredited system and a scoped SSP is required.
+
+##### What's included?
+
+- The ACME custom SSP (partial) is based on the ACME internal profile. Is it located `markdown/system-security-plans/acme_demo_custom_ssp`
+
+##### Diagram
+
+The below diagram only covers the guided activity.
+To learn more about the SSP filtering workflow, see this [diagram](./ssp-filtering.md).
+
+```mermaid
+graph LR;
+  A[Start] --> B[Filter SSP]
+  B --> C[Submit PR]
+  C --> D[End]
+```
+
+##### Steps
+
+Clone your repository created from the template to your local environment to get started.
+
+```bash
+git clone https://github.com/mynamespace/my-trestle-repo
+```
+
+If necessary, create the container image.
+
+```bash
+make demo-build # build the container image if not done already
+````
+
+Run the `filter-ssp` command to run generate a new ssp under `system-security-plans.
+
+
+```bash
+make filter-ssp
+```
+
+A new filtered ssp, will now be available under `system-security-plans/acme_filtered_demo_ssp`
 
 ## Additional Resources
 
