@@ -1,11 +1,4 @@
 ---
-x-trestle-comp-def-rules:
-  This System:
-    - name: Test-rule_002
-      description: Ensure all of the services are running this test again
-  Hello World:
-    - name: Test-rule_002
-      description: Ensure all of the services are running this test again
 x-trestle-global:
   profile:
     title: ACME Inc. internal controls profile.
@@ -30,6 +23,6 @@ ______________________________________________________________________
 
 <!-- Add implementation prose for the main This System component for control: cc-1 -->
 
-#### Implementation Status: partial
+#### Implementation Status: planned
 
 ______________________________________________________________________
