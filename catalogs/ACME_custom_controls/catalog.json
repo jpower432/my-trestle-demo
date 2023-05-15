@@ -3,7 +3,7 @@
     "uuid": "96a701b8-f7be-44c1-ad21-3ae4d1ae45f9",
     "metadata": {
       "title": "REPLACE_ME",
-      "last-modified": "2023-05-15T19:25:33.241947+00:00",
+      "last-modified": "2023-05-15T19:31:47.849520+00:00",
       "version": "REPLACE_ME",
       "oscal-version": "1.0.4"
     },
@@ -19,7 +19,7 @@
               {
                 "id": "cc-1_smt",
                 "name": "statement",
-                "prose": "All services should report energy consumed by their service(s)."
+                "prose": "All services should report energy consumed by their service."
               }
             ]
           },
@@ -80,7 +80,7 @@
                         "value": "b"
                       }
                     ],
-                    "prose": "Have an automated method for allowing users to access all of their data"
+                    "prose": "Have an automated method for allowing users to access all of their data."
                   },
                   {
                     "id": "pr-1_smt.c",
